@@ -1,0 +1,5 @@
+.env
+files.txt
+PortMonitor
+.idea/*
+.github/workflows/go1.18.3.linux-amd64.tar.gz
