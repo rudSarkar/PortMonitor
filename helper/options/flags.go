@@ -15,6 +15,7 @@ func ParseOptions() *Options {
 	flag.StringVar(&options.Host, "h", "", "Single host")
 
 	flag.Parse()
+	flag.PrintDefaults()
 
 	return options
 }

@@ -8,7 +8,7 @@ import (
 	"github.com/rudSarkar/PortMonitor/helper/options"
 	pstruct "github.com/rudSarkar/PortMonitor/helper/pstructure"
 	"github.com/rudSarkar/PortMonitor/helper/slackwebhook"
-	"log"
+	"github.com/thep0y/go-logger/log"
 	"net/http"
 	"os"
 	"regexp"
@@ -27,7 +27,7 @@ func GetOutput() {
 	if options.File != "" {
 		fileName, err := os.Open(options.File)
 		if err != nil {
-			log.Fatalln(err)
+			log.Fatal("File doesn't exists")
 		}
 		defer fileName.Close()
 
@@ -36,16 +36,16 @@ func GetOutput() {
 		for scanner.Scan() {
 			req, err := http.NewRequest("GET", "https://api.hackertarget.com/nmap/", nil)
 			if err != nil {
-				log.Fatalln(err)
+				log.Fatal("Failed to request HackerTarget.com!")
 			}
 			q := req.URL.Query()
 			q.Add("q", scanner.Text())
 			q.Add("apikey", ApiKey)
 			req.URL.RawQuery = q.Encode()
 
-			ApiUri, _ := http.Get(req.URL.String())
+			ApiUri, err := http.Get(req.URL.String())
 			if err != nil {
-				log.Fatalln(err)
+				log.Fatal("No response from HackerTarget API!")
 			}
 			defer ApiUri.Body.Close()
 
@@ -61,7 +61,7 @@ func GetOutput() {
 					if find != nil {
 						_, err := PortCollection.InsertOne(context.TODO(), singlePort)
 						if err != nil {
-							log.Fatalln(err)
+							log.Fatal("Data insert failed to database!")
 						}
 
 						slackwebhook.SlackSendMessage(HookUrl, fmt.Sprintf(":rotating_light:  `%s` port found opened of `%s`", singlePort.Port, singlePort.Domain))
