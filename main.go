@@ -10,8 +10,8 @@ import (
 
 func main() {
 	URI := os.Getenv("MONGODB_URI")
-	if URI == "" {
-		log.Fatal("MONGODB_URI not found in the .env")
+	if checkDotEnv() {
+		log.Fatal("environment file not found")
 	} else {
 		defer config.IsConnected(URI).Disconnect(context.TODO())
 		output.GetOutput()

@@ -2,11 +2,13 @@ package main
 
 import (
 	"github.com/joho/godotenv"
-	"log"
+	"github.com/thep0y/go-logger/log"
 )
 
-func init() {
+func checkDotEnv() bool {
 	if err := godotenv.Load(".env"); err != nil {
-		log.Println("No .env file found")
+		log.Fatal("No .env file found")
 	}
+
+	return false
 }
