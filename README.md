@@ -1,6 +1,6 @@
 ## PortMonitor
 
-It requires HackerTarget API and monitor port using [cron library](github.com/robfig/cron/v3), and it requires mongodb to store data and slack webhook.
+It requires HackerTarget API and monitor port using cronjob, and it requires mongodb to store data and slack webhook.
 
 ### MongoDB Compose file
 
@@ -34,16 +34,11 @@ services:
 
 ### Environment
 
-Change HackerTarget API also mongodb URI and finally slack webhook.
+Change HackerTarget API also mongodb URI and finally slack webhook. Create folder on `mkdir $HOME/.portmonitor/` and
+then create a file `touch $HOME/.portmonitor/.env` follow the example env and change with yours.
 
 ```dotenv
 HACKERTARGET_API=7xxxxxsomerandomstringsd1c
 MONGODB_URI=mongodb://root:example@localhost:27017/
 SLACK_WEBHOOK=https://hooks.slack.com/services/xxxx/xxx/xxxxx
 ```
-
-
-### Todo
-
-- [ ] Add cronjob to add monitoring system
-- [ ] Add a env item for specify the cron time
